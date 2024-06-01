@@ -2,12 +2,13 @@ import pymongo
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import certifi
 config = load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
 openaiClient = OpenAI()
-import certifi
+
 
 # Set your OpenAI API key
 

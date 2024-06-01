@@ -15,17 +15,16 @@ openaiClient = OpenAI()
 import certifi
 
 # set up a MongoDB Atlas vector store
-def generateDocs():
-    mongoClient = pymongo.MongoClient(MONGO_URI, tlsCAFile=certifi.where())
-    dbName= "rag_climate_demo"
-    collectionName = "climate_data"
-    collection= mongoClient[dbName][collectionName]
 
-    loader = DirectoryLoader('./data_files',glob='*.txt',show_progress=True)
-    data = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
-    docs = text_splitter.split_documents(data)
-    return docs;
+mongoClient = pymongo.MongoClient(MONGO_URI, tlsCAFile=certifi.where())
+dbName= "rag_climate_demo"
+collectionName = "climate_data"
+collection= mongoClient[dbName][collectionName]
+
+loader = DirectoryLoader('./data_files',glob='*.txt',show_progress=True)
+data = loader.load()
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+docs = text_splitter.split_documents(data)
 
 
 
