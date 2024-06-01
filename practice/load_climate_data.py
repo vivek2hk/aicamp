@@ -15,6 +15,7 @@ openaiClient = OpenAI()
 import certifi
 
 # set up a MongoDB Atlas vector store
+
 mongoClient = pymongo.MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 dbName= "rag_climate_demo"
 collectionName = "climate_data"
@@ -26,23 +27,7 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=15
 docs = text_splitter.split_documents(data)
 
 
-vector_store = MongoDBAtlasVectorSearch.from_documents(
-    documents=docs,
-    embedding=OpenAIEmbeddings(disallowed_special=()),
-    collection=collection,
-    index_name="climate_search_index",
-    
-)
+
 
 # create a retrieval QA chain 
-def query_data(query):
-    docs=vector_store.similarity_search(query, K=1)
-    as_output = docs[0].page_content
 
-    retriever= vector_store.as_retriever()
-    qa= RetrievalQA.from_chain_type(openaiClient,chain_type="stuff", retriever=retriever)
-    retriever_output = qa.run(query)
-    print(retriever_output)
-    return as_output, retriever_output
-
-print(query_data("how has climate change affected tornadoes in Midwest?"))
