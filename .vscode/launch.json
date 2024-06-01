@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python: Run Python File in Terminal",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PYTHONPATH": "${workspaceFolder}/datacake"
+        }
+      },
+      {
+        "name": "Run Current File in Interactive Window (IPython)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PYTHONPATH": "${workspaceFolder}"
+        }
+      },
+      {
+        "name": "RealEstate",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "streamlit",
+        "args": [
+          "run",
+          "entry.py"
+        ],
+        "cwd": "${workspaceFolder}",
+        "jinja": true,
+        "justMyCode": false,
+        "env": {
+          "PYTHONPATH": "${workspaceFolder/datacake"
+        },
+      }
+    ]
+  }
