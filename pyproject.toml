@@ -17,6 +17,7 @@ watchdog = "^4.0.1"
 langchain-community = "^0.2.1"
 requests = "^2.32.3"
 bs4 = "^0.0.2"
+langchain-upstage = "^0.1.5"
 
 
 [build-system]
