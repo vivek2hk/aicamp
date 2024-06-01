@@ -13,6 +13,7 @@ certifi = "^2024.2.2"
 pymongo = "^4.7.2"
 openai = "^1.30.5"
 python-dotenv = "^1.0.1"
+watchdog = "^4.0.1"
 
 
 [build-system]

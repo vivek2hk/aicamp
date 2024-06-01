@@ -1,0 +1,39 @@
+/* styles.css */
+body {
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #68b36d;
+}
+
+h2 {
+  background-image: linear-gradient(gold, gold);
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  background-position: 100% 0%;
+}
+
+.stButton>button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.stButton>button:hover {
+    background-color: #2980b9;
+}
+
+.hero-image {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+.hero-image img {
+    width: 100%;
+    opacity: 0.2;
+}
