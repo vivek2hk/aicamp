@@ -31,8 +31,7 @@ vector_store = MongoDBAtlasVectorSearch.from_documents(
     embedding=OpenAIEmbeddings(disallowed_special=()),
     collection=collection,
     index_name="climate_search_index",
-    
-)
+    )
 
 # create a retrieval QA chain 
 def query_data(query):
