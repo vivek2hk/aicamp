@@ -41,7 +41,7 @@ results = collection.aggregate([
     "limit": 4,
     "index": "vector_index",
       }}
-]);
+])
 print("Results: ")
 for document in results:
     print(f'House Location: {document["state"]},\nSummary: {document["consolidated_text"]}\n')

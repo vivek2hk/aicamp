@@ -30,7 +30,7 @@
         "module": "streamlit",
         "args": [
           "run",
-          "entry.py"
+          "app/entry.py"
         ],
         "cwd": "${workspaceFolder}",
         "jinja": true,
