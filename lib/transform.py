@@ -1,5 +1,7 @@
 import csv
 import json
+import random
+
 import requests
 from dotenv import load_dotenv
 import os
@@ -46,18 +48,27 @@ def validate_and_fix_json(file_path):
         return None
 
 
-def csv_to_json(csv_file_path, json_file_path):
+def csv_to_json(csv_file_path, json_file_path, image_file_path):
     # Read the CSV file and convert it to a list of dictionaries
     data = []
+    with open(image_file_path, mode='r', encoding='utf-8') as image_file:
+        img_reader = json.load(image_file)
+
+    len_img_reader = len(img_reader)
+    random.randrange(0, len_img_reader-1)
+
     with open(csv_file_path, mode='r', newline='', encoding='utf-8') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
+            random_int = random.randrange(0, len_img_reader-1)
+            exterior_image = img_reader[random_int]['exterior']
+            interior_image = img_reader[random_int]['interior']
             json_string = json.dumps(row)
             consolidated_text = json_string.replace("{", "").replace("}", "")
             # summary = generate_summary(row)
             row['consolidated_text'] = str(consolidated_text)
-            # row['summary'] = summary
-            # print(row)
+            row['exterior_image'] = exterior_image
+            row['interior_image'] = interior_image
             data.append(row)
 
     json_string = json.dumps(data)
@@ -92,7 +103,12 @@ def generate_summary(input: dict):
     summary = json.loads(response.json())['content']
     return summary
 
-# Example usage
+
+# # Example usage
 csv_file_path = '../data/raw/top-1000-realtor-data.csv'
 json_file_path = '../data/curated/top-1000-realtor-data.json'
-csv_to_json(csv_file_path, json_file_path)
+image_file_path = '../data/raw/image_data.json'
+csv_to_json(csv_file_path, json_file_path, image_file_path)
+
+
+validate_and_fix_json(file_path='../data/curated/top-1000-realtor-data.json')
