@@ -1,52 +1,33 @@
-from langchain_community.vectorstores import MongoDBAtlasVectorSearch
-from langchain_openai import OpenAIEmbeddings
-from langchain.chains import RetrievalQA
-from langchain_openai import OpenAI
 from langchain_core.prompts import PromptTemplate
-from dotenv import load_dotenv
-import os
-
-config = load_dotenv()
-
-MONGO_URI = os.getenv("MONGO_URI") or ""
-
-DB_NAME = "sample_housing"
-COLLECTION_NAME = "data"
+from langchain_openai import ChatOpenAI, OpenAI
 
 
-vector_search = MongoDBAtlasVectorSearch.from_connection_string(
-    MONGO_URI,
-    DB_NAME + "." + COLLECTION_NAME,
-    OpenAIEmbeddings(disallowed_special=()),
-    index_name="vector_index",
-)
+def invoke_llm(prompt:str, context: str, criteria: str):
+
+    template = "Question: {question}"
+
+    prompt_template = PromptTemplate.from_template(template)
+
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 
+    llm_chain = prompt_template | llm
 
-prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+    question = f"""You are a virtual real estate agent who provided comparison of properties based on the question an criteria a user provides.
+    This is the user input: {prompt}
+    A vector database has been created to store the data of the properties. And pulled context based on user input.
+    This is the context: {context}
+    What is the best property among the provided results and why. Please format the results neatly. Use html tags for your entire response. Use tables if necessary."""
 
-{context}
+    answer = llm_chain.invoke(question)
 
-Question: {question}
-"""
-PROMPT = PromptTemplate(
-    template=prompt_template, input_variables=["context", "question"]
-)
+    return str(answer.content)
 
-qa_retriever = vector_search.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 25},
-)
+# if __name__ == "__main__":
+#     prompt = "get me houses in Puerto Rico"
+#     context = "Houses in Puerto Rico"
+#     criteria = "best property"
+#     response = invoke_llm(prompt, context, criteria)
+#     print(response)
 
-qa = RetrievalQA.from_chain_type(
-    llm=OpenAI(),
-    chain_type="stuff",
-    retriever=qa_retriever,
-    return_source_documents=True,
-    chain_type_kwargs={"prompt": PROMPT},
-)
 
-docs = qa({"query": "gpt-4 compute requirements"})
-
-print(docs["result"])
-print(docs["source_documents"])
